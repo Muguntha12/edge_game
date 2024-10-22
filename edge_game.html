@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        button{
+            border: solid transparent 3px;
+            background-color: black;
+            width: 3px;
+            height: 17px;
+            border-radius: 100%;
+            margin: 40px;
+            position:relative;
+            z-index: 1;
+        }
+        button:hover{
+            background-color:green;
+        }
+        #heading{
+            text-align: center;
+        }
+        #frame{
+            text-align: center;
+        }
+        /* canvas {
+            border: 3px solid black;
+        } */
+        
+    </style>
+</head>
+<body>
+    <h1 id="heading">Edge</h1>
+    <br>
+    <div id="frame">
+        <div id="frame1">
+        <button id="0,0" onclick="Myfun(0,0)"></button>
+        <button id="0,1" onclick="Myfun(0,1)"></button>
+        <button id="0,2" onclick="Myfun(0,2)"></button>
+        <button id="0,3" onclick="Myfun(0,3)"></button><br>
+        <button id="1,0" onclick="Myfun(1,0)"></button>
+        <button id="1,1" onclick="Myfun(1,1)"></button>
+        <button id="1,2" onclick="Myfun(1,2)"></button>
+        <button id="1,3" onclick="Myfun(1,3)"></button><br>
+        <button id="2,0" onclick="Myfun(2,0)"></button>
+        <button id="2,1" onclick="Myfun(2,1)"></button>
+        <button id="2,2" onclick="Myfun(2,2)"></button>
+        <button id="2,3" onclick="Myfun(2,3)"></button><br>
+        <button id="3,0" onclick="Myfun(3,0)"></button>
+        <button id="3,1" onclick="Myfun(3,1)"></button>
+        <button id="3,2" onclick="Myfun(3,2)"></button>
+        <button id="3,3" onclick="Myfun(3,3)"></button><br>
+    </div></div>
+       <div style="position:absolute;top:450px;left:400px;text-align:left;margin:20px;"><h1 id="label1" style="text-align: center;">Player 1 :</h1><input id="name1"></div>
+       <div style="position:absolute;top:450px;left:900px;text-align:right;margin:20px;"><h1 id="label2" style="text-align: center;">Player 2 :</h1><input id="name2"></div>
+    <script>
+        var count=0,I=0,J=0,chance=0,cl="red";
+        var p1="none",p2="none",po1=0,po2=0;
+
+        var hor=[[0,0,0],[0,0,0],[0,0,0],[0,0,0]],ver=[[0,0,0],[0,0,0],[0,0,0],[0,0,0]];
+        document.getElementById('name1').addEventListener('keydown', function(event) {
+            if (event.key === 'Enter') {
+                p1=this.value;
+                document.getElementById("label1").innerHTML=p1+"<br>points: 0";
+                this.style.display='none';
+                // You can add more actions here
+            }
+        });
+        document.getElementById('name2').addEventListener('keydown', function(event) {
+            if (event.key === 'Enter') {
+                p2=this.value;
+                document.getElementById("label2").innerHTML=p2+"<br>points: 0";
+                this.style.display='none';
+            }
+        });
+        function line(i1,j1,i2,j2){
+            var t=0,l=0,w='0',h='0';
+            if(i1!=i2){
+              w='6px';
+              h='100px';
+              t=142+i1*97;
+              l=600+j1*100;
+              if(ver[i1][j1]==1)
+                return;
+              ver[i1][j1]=1;
+            //   document.getElementById("heading").innerHTML=ver[i1][j1];
+              if(j1!=0){
+                if(hor[i1][j1-1]==1&&ver[i1][j1-1]==1&&hor[i1+1][j1-1]==1){
+                    if(chance%2==0)
+                       po1++;
+                    else 
+                       po2++;
+                    const newDiv = document.createElement('div');
+                    newDiv.style.position = 'absolute'; 
+                    newDiv.style.width = '94px';
+                    newDiv.style.height = '91px';
+                    newDiv.textContent=((chance%2==0)?p1.slice(0,1):p2.slice(0,1));
+                    newDiv.style.backgroundColor = cl;
+                    newDiv.style.fontSize='60px';
+                    newDiv.style.border = '2px solid black';
+                    newDiv.style.top = (t+6)+'px'; 
+                    newDiv.style.left =(l-95)+'px'; 
+                    document.getElementById('frame1').appendChild(newDiv);
+                }
+              }
+              if(j1!=3){
+                if(hor[i1][j1]==1&&ver[i1][j1+1]==1&&hor[i1+1][j1]==1){
+                    if(chance%2==0)
+                      po1++;
+                    else 
+                      po2++;
+                    const newDiv = document.createElement('div');
+                    newDiv.style.position = 'absolute'; 
+                    newDiv.style.width = '94px';
+                    newDiv.style.height = '91px';
+                    newDiv.textContent=((chance%2==0)?p1.slice(0,1):p2.slice(0,1));
+                    newDiv.style.backgroundColor = cl;
+                    newDiv.style.fontSize='60px';
+                    newDiv.style.border = '2px solid black';
+                    newDiv.style.top = (t+6)+'px'; 
+                    newDiv.style.left =(l+4)+'px'; 
+                    document.getElementById('frame1').appendChild(newDiv);
+                }
+              }
+            }
+            else{
+              w='100px';
+              h='6px';
+              t=142+i1*97;
+              l=603+j1*102;
+              if(hor[i1][j1]==1)
+                return;
+              hor[i1][j1]=1;
+            //   document.getElementById("heading").innerHTML=hor[i1][j1];
+              if(i1!=0){
+                if(hor[i1-1][j1]==1&&ver[i1-1][j1]==1&&ver[i1-1][j1+1]==1){
+                    if(chance%2==0)
+                      po1++;
+                   else 
+                      po2++;
+                    const newDiv = document.createElement('div');
+                    newDiv.style.position = 'absolute'; 
+                    newDiv.style.width = '93px';
+                    newDiv.style.height = '90px';
+                    newDiv.textContent=((chance%2==0)?p1.slice(0,1):p2.slice(0,1));
+                    newDiv.style.backgroundColor = cl;
+                    newDiv.style.fontSize='60px';
+                    newDiv.style.border = '2px solid black';
+                    newDiv.style.top = (t-92)+'px'; 
+                    newDiv.style.left =(l+1)+'px'; 
+                    document.getElementById('frame1').appendChild(newDiv);
+                }
+              }
+              if(i1!=3){
+                if(hor[i1+1][j1]==1&&ver[i1][j1]==1&&ver[i1][j1+1]==1){
+                    if(chance%2==0)
+                      po1++;
+                   else 
+                      po2++;
+                    const newDiv = document.createElement('div');
+                    newDiv.style.position = 'absolute'; 
+                    newDiv.style.width = '93px';
+                    newDiv.style.height = '90px';
+                    newDiv.textContent=((chance%2==0)?p1.slice(0,1):p2.slice(0,1));
+                    newDiv.style.backgroundColor = cl;
+                    newDiv.style.fontSize='60px';
+                    newDiv.style.border = '2px solid black';
+                    newDiv.style.top = (t+6)+'px'; 
+                    newDiv.style.left =(l+1)+'px'; 
+                    document.getElementById('frame1').appendChild(newDiv);
+                }
+              } 
+            }
+            const newDiv = document.createElement('div');
+        // // Set styles directly
+        // newDiv.style.zIndex=0;
+        newDiv.style.position = 'absolute'; // or 'relative', 'fixed', etc.
+        newDiv.style.width = w;
+        newDiv.style.height = h;
+        newDiv.style.backgroundColor = 'black';
+        newDiv.style.border = '2px solid black';
+        newDiv.style.top = t+'px'; // Position from the top
+        newDiv.style.left =l+'px';  // Position from the left
+        chance++;
+        // Append the new div to the body
+        document.getElementById('frame1').appendChild(newDiv);
+        document.getElementById("label1").innerHTML=p1+"<br>points: "+po1;
+        document.getElementById("label2").innerHTML=p2+"<br>points: "+po2;
+        }
+        function Myfun(i,j){
+            if(count==1){
+              if(((J+1==j)&&(I==i))||((I+1==i)&&(J==j))||((J-1==j)&&(I==i))||((I-1==i)&&(J==j)))
+              {
+                document.getElementById(i+","+j).style.backgroundColor=cl;
+                count=0;
+                if((I*4+J)<(i*4+j))
+                line(I,J,i,j);
+                else 
+                line(i,j,I,J);
+                I=0;
+                J=0;
+              }
+              else{
+                document.getElementById(I+","+J).style.backgroundColor="black";
+              I=i;
+              J=j;
+              }
+            }
+            else{
+            count++;
+            I=i;
+            J=j;
+            }
+            document.getElementById(i+","+j).style.backgroundColor=cl;
+            if(chance%2==0)
+             cl="red";
+            else
+             cl="blue";
+        }
+    </script>
+</body>
+</html>
